@@ -8,3 +8,9 @@ variable "provider_databricks_client_secret" {
   type        = string
   sensitive   = true
 }
+
+variable "kaggle_auth_key" {
+  description = "Auth key for the kaggle user"
+  type        = string
+  sensitive   = true
+}

@@ -18,13 +18,39 @@ resource "databricks_cluster" "single_user_ml_cluster" {
 
   library {
     pypi {
-      package = "pandas"
+      package = "opendatasets"
+    }
+  }
+  library {
+    pypi {
+      package = "databricks-feature-engineering"
+    }
+  }
+  library {
+    pypi {
+      package = "mlflow-skinny[databricks]>=2.5.0"
     }
   }
 
   library {
     pypi {
-      package = "numpy"
+      package = "dbldatagen"
     }
   }
+}
+
+resource "databricks_secret_scope" "ml_in_action" {
+  name = "machine-learning-in-action"
+}
+
+resource "databricks_secret" "kaggle_username" {
+  key          = "KAGGLE_USERNAME"
+  string_value = "rparthas87"
+  scope        = databricks_secret_scope.ml_in_action.name
+}
+
+resource "databricks_secret" "kaggle_key" {
+  key          = "KAGGLE_KEY"
+  string_value = var.kaggle_auth_key
+  scope        = databricks_secret_scope.ml_in_action.name
 }
